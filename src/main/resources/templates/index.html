@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Página principal</title>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+<body>
+<h1>Bienvenido a la app OAuth2</h1>
+
+<div th:if="${name}">
+    <p>👋 Hola, <b th:text="${name}"></b></p>
+    <p>📧 Email: <span th:text="${email}"></span></p>
+    <img th:src="${picture}" alt="Foto de perfil" width="100">
+    <br><br>
+
+    <!-- 🔒 Incluye el token CSRF -->
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit">Cerrar sesión</button>
+    </form>
+</div>
+
+<div th:if="${name == null}">
+    <a href="/oauth2/authorization/google">Iniciar sesión con Google</a>
+</div>
+
+<p th:if="${param.logout}" style="color: green;">
+    ✅ Has cerrado sesión correctamente.
+</p>
+
+</body>
+</html>
